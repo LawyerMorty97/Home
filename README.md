@@ -1,4 +1,5 @@
-#LYD: Lightweight Youtube Downloader
+# LYD: Lightweight Youtube Downloader
+> Lightning fast video downloading without any clutter
 
 L.Y.D. is a program coded in JavaScript with a Node.JS backend and Electon frontend.
 
