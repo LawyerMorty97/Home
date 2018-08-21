@@ -3,10 +3,14 @@
 
 L.Y.D. is a program coded in JavaScript with a Node.JS backend and Electon frontend.
 
-The following libraries are used in this solution:
+The following libraries are used in the core of this solution:
 - fs (File System)
 - ytdl-core (Youtube Downloader)
 - electron
+
+Implemented libraries:
+- [x] ytdl-core
+- [ ] electron
 
 To Do:
 - [x] Prototype Basic Downloading

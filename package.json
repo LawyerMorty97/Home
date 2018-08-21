@@ -9,7 +9,9 @@
   "author": "Mathias Berntsen",
   "license": "ISC",
   "dependencies": {
+    "electron": "^2.0.7",
     "fs": "0.0.1-security",
+    "npm": "^6.4.0",
     "ytdl-core": "^0.24.0"
   }
 }
