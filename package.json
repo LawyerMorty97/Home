@@ -2,14 +2,15 @@
   "name": "lightweightyoutubedownloader",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "author": "Mathias Berntsen",
   "license": "ISC",
   "dependencies": {
     "child-process": "^1.0.2",
+    "child_process": "^1.0.2",
     "dialog": "^0.3.1",
     "electron": "^2.0.7",
     "electron-squirrel-startup": "^1.0.0",

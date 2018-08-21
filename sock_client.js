@@ -9,7 +9,11 @@ function Frontend(webContents) {
     IPC = webContents;
 }
 
+function shutdown() {
+
+}
+
 Frontend.prototype.constructor = Frontend;
 
-//Frontend.prototype
+Frontend.prototype.shutdown = shutdown;
 module.exports = Frontend;
