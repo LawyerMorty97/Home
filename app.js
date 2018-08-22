@@ -80,7 +80,7 @@ var window = null; // Window
 
 function initModules() {
     uuid = new UUID();
-    frontend = new Frontend(window.webC);
+    frontend = new Frontend(window.webContents);
 }
 
 function instanceCheck() {
@@ -94,9 +94,9 @@ function instanceCheck() {
     if (instanced === true) app.quit();
 }
 
-function loadHTML(file) {
+function loadHTML(fileName) {
     window.loadURL(url.format({
-        pathname: path.join(__dirname, file),
+        pathname: path.join(__dirname, fileName),
         protocol: "file:",
         slashes: true
     }));
@@ -109,10 +109,10 @@ function createWindow() {
     initModules();
 
     loadHTML("home.html");
-
     window.once("ready-to-show", () => {
         window.show();
-        window.webContents.send("debug.message", "ready to show");
+        
+        window.webContents.send("message", "Created Window");
     });
 
     if (process.platform !== 'darwin') {
@@ -144,4 +144,21 @@ app.on("activate", () => {
 
 app.on("window-all-closed", () => {
     if (process.platform !== 'darwin') quitApp();
+});
+
+//
+ipcMain.on('async', (event, arg) => {
+    console.log(arg);
+    event.sender.send('async-reply', 2);
+});
+
+ipcMain.on('sync', (event, arg) => {
+    console.log(arg);
+    event.returnValue = 4;
+    window.webContents.send('ping', 5);
+});
+
+ipcMain.on('message', (event, arg) => {
+    console.log("Renderer: " + arg);
+    window.webContents.send("message", arg);
 });

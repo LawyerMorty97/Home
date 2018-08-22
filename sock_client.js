@@ -7,6 +7,8 @@ var IPC;
 
 function Frontend(webContents) {
     IPC = webContents;
+    IPC.send("message", "hello world");
+    console.log("Backend IPC init");
 }
 
 function shutdown() {
