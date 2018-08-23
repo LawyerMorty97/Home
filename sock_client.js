@@ -15,7 +15,21 @@ function shutdown() {
 
 }
 
+function send(message) {
+    if (message !== "") {
+        IPC.send("message", message);
+    }
+}
+
+function sendEvent(message) {
+    if (message !== "") {
+        IPC.send("event", message);
+    }
+}
+
 Frontend.prototype.constructor = Frontend;
 
+Frontend.prototype.send = send;
+Frontend.prototype.sendEvent = sendEvent;
 Frontend.prototype.shutdown = shutdown;
 module.exports = Frontend;

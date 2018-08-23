@@ -61,14 +61,14 @@ const Frontend = require("./sock_client");
 
 const appOptions = {
     window: {
-        width: 800,
-        height: 600,
-        minWidth: 800,
-        minHeight: 600,
-        frame: true,
+        width: 1200,
+        height: 800,
+        minWidth: 1200,
+        minHeight: 800,
+        frame: false,
         center: true,
-        title: "Lightweight Youtube Downloader",
-        show: true,
+        title: "LYD",
+        show: false,
         scrollBounce: true
     }
 };
@@ -108,11 +108,9 @@ function createWindow() {
     window = new BrowserWindow(appOptions.window);
     initModules();
 
-    loadHTML("home.html");
+    loadHTML("static/index.html");
     window.once("ready-to-show", () => {
         window.show();
-        
-        window.webContents.send("message", "Created Window");
     });
 
     if (process.platform !== 'darwin') {
@@ -124,6 +122,11 @@ function createWindow() {
             window.webContents.send("action", "move");
         });
     }
+}
+
+function onWindowCreated() {
+    //frontend.send("Window successfully initialized.");
+    frontend.sendEvent("setupLinkParser");
 }
 
 function quitApp() {
@@ -146,7 +149,7 @@ app.on("window-all-closed", () => {
     if (process.platform !== 'darwin') quitApp();
 });
 
-//
+/*
 ipcMain.on('async', (event, arg) => {
     console.log(arg);
     event.sender.send('async-reply', 2);
@@ -157,8 +160,22 @@ ipcMain.on('sync', (event, arg) => {
     event.returnValue = 4;
     window.webContents.send('ping', 5);
 });
-
+*/
 ipcMain.on('message', (event, arg) => {
     console.log("Renderer: " + arg);
-    window.webContents.send("message", arg);
+
+    // Once we know a 'Hello backend' message have been sent, we know the window has been created
+    if (arg === "Hello backend") {
+        frontend.send("Hello renderer");
+        onWindowCreated();
+    }
+});
+
+ipcMain.on("event", (event, arg) => {
+    if (arg === "quit") {
+        quitApp();
+    }
+    // Send the rendered the event that was called :-)
+    console.log("Event Call: " + arg);
+    frontend.sendEvent(arg);
 });
