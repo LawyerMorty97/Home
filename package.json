@@ -17,6 +17,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "fs": "0.0.1-security",
     "jquery": "^3.4.0",
+    "mqtt": "^2.18.8",
     "node-machine-id": "^1.1.10",
     "node-uuid": "^1.4.8",
     "npm": "^6.9.0",

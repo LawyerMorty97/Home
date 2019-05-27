@@ -58,6 +58,7 @@ function handleSquirrel() {
 // START: Application
 const UUID = require("./uuid");
 const Frontend = require("./sock_client");
+const HQTT = require('./hqtt')
 
 const appOptions = {
     window: {
@@ -67,7 +68,7 @@ const appOptions = {
         minHeight: 800,
         frame: false,
         center: true,
-        title: "LYD",
+        title: "Homekit - By Mathias Berntsen",
         show: false,
         scrollBounce: true
     }
@@ -75,12 +76,31 @@ const appOptions = {
 
 var uuid = null;
 var frontend = null;
+var hqtt = null;
 
 var window = null; // Window
+
+// In charge of class communication
+var communicator = {}
+communicator.sendMessage = (cat, msg) => {
+    console.log(cat + ": " + msg)
+    window.webContents.send("message", msg)
+}
+
+communicator.sendEvent = (event) => {
+    if (event === "device_list")
+    {
+        var d = hqtt.GetDevices()
+        window.webContents.send("data", "homekit_devices", d)
+    }
+
+    window.webContents.send("event", event)
+}
 
 function initModules() {
     uuid = new UUID();
     frontend = new Frontend(window.webContents);
+    hqtt = new HQTT(communicator);
 }
 
 function instanceCheck() {
@@ -108,7 +128,7 @@ function createWindow() {
     window = new BrowserWindow(appOptions.window);
     initModules();
 
-    loadHTML("static/index.html");
+    loadHTML("static/homebridge.html");
     window.once("ready-to-show", () => {
         window.show();
     });
@@ -126,11 +146,17 @@ function createWindow() {
 
 function onWindowCreated() {
     //frontend.send("Window successfully initialized.");
-    frontend.sendEvent("setupLinkParser");
+    frontend.sendEvent("setupLinkParser")
+
+    hqtt.subscribe('homebridge/from/set')
+    hqtt.subscribe('homebridge/from/response')
+
+    hqtt.init()
 }
 
 function quitApp() {
     if (frontend !== null) frontend.shutdown();
+    if (hqtt !== null) hqtt.shutdown();
 
     app.quit();
 }
@@ -149,32 +175,36 @@ app.on("window-all-closed", () => {
     if (process.platform !== 'darwin') quitApp();
 });
 
-/*
-ipcMain.on('async', (event, arg) => {
-    console.log(arg);
-    event.sender.send('async-reply', 2);
-});
-
-ipcMain.on('sync', (event, arg) => {
-    console.log(arg);
-    event.returnValue = 4;
-    window.webContents.send('ping', 5);
-});
-*/
 ipcMain.on('message', (event, arg) => {
     console.log("Renderer: " + arg);
-
-    // Once we know a 'Hello backend' message have been sent, we know the window has been created
-    if (arg === "Hello backend") {
-        frontend.send("Hello renderer");
-        onWindowCreated();
-    }
 });
 
-ipcMain.on("event", (event, arg) => {
-    if (arg === "quit") {
-        quitApp();
+ipcMain.on("event", (event, arg, state) => {
+    if (arg === "appstart") {
+        onWindowCreated()
     }
+
+    if (arg === "quit") {
+        quitApp()
+    }
+
+    if (arg === "device_list")
+    {
+        console.log("DE")
+        var devices = hqtt.GetDevices()
+        devices.forEach(function(device) {
+            device.turnOff()
+        })
+    }
+
+    if (arg === "hOn")
+    {
+        hqtt.Toggle(state, true)
+    }
+    if (arg === "hOff") {
+        hqtt.Toggle(state, false)
+    }
+
     // Send the rendered the event that was called :-)
     console.log("Event Call: " + arg);
     frontend.sendEvent(arg);

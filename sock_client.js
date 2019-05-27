@@ -8,7 +8,7 @@ var IPC;
 function Frontend(webContents) {
     IPC = webContents;
     IPC.send("message", "hello world");
-    console.log("Backend IPC init");
+    console.log("Frontend Setup");
 }
 
 function shutdown() {
@@ -16,15 +16,11 @@ function shutdown() {
 }
 
 function send(message) {
-    if (message !== "") {
-        IPC.send("message", message);
-    }
+    IPC.send("message", message);
 }
 
 function sendEvent(message) {
-    if (message !== "") {
-        IPC.send("event", message);
-    }
+    IPC.send("event", message);
 }
 
 Frontend.prototype.constructor = Frontend;

@@ -1,7 +1,9 @@
 var {desktopCapturer, screen, shell, ipcRenderer, remote} = require("electron");
-var app = remote.require("./app.js");
+var app = remote.require("./app.js")
 
 var maximized = true; // Max/Min Window State
+
+var devices = []
 
 function winHandle(query) {
     var currentWindow = remote.BrowserWindow.getFocusedWindow();
@@ -13,14 +15,14 @@ function winHandle(query) {
     if (query === "maximize") {
         if (maximized) {
             currentWindow.maximize();
-            maxButton.classList.add("hidden");
-            fitButton.classList.remove("hidden");
+            //maxButton.classList.add("hidden");
+            //fitButton.classList.remove("hidden");
         } else {
             currentWindow.unmaximize();
             currentWindow.center();
 
-            maxButton.classList.remove("hidden");
-            fitButton.classList.add("hidden");
+            //maxButton.classList.remove("hidden");
+            //fitButton.classList.add("hidden");
         }
         maximized = !maximized;
     } else if (query === "minimize") {
@@ -69,44 +71,94 @@ function handleEvent(event) {
     }
 }
 
-/*ipcRenderer.on("message", (event, arg) => {
-    console.log("Message: " + arg);
-});
+ipcRenderer.send("event", "appstart")
 
-function sendEvent(eventName) {
-    ipcRenderer.send("event", eventName);
-}
-
-ipcRenderer.on("action", (event, arg) => {
-    if (arg == "move") {
-
-    }
-});
-
-console.log("window.js");*/
-
-//ipcRenderer.send('async', "TEST");
-ipcRenderer.send("message", "Hello backend");
-ipcRenderer.send("event", "AppStart");
-
-/*
-ipcRenderer.on('async-reply', (event, arg) => {
-    console.log(arg);
-
-    let mainValue = ipcRenderer.sendSync('sync', 3);
-    console.log(mainValue);
-});
-
-ipcRenderer.on('ping', (event, arg) => {
-    console.log(arg);
-});
-*/
 ipcRenderer.on('event', (event, arg) => {
-    console.log(`Event Call: ${arg}`);
+    console.log(`Received Event: ${arg}`);
 
     handleEvent(arg);
-});
+})
 
 ipcRenderer.on('message', (event, arg) => {
-    console.log("Backend: " + arg);
-});
+    console.log("Received Backend Message: " + arg);
+})
+
+ipcRenderer.on('data', (event, type, data) => {
+    if (type === "homekit_devices") {
+        console.log("GOT DEVICES ON CLIENT")
+        devices = data
+
+        const deviceContainer = document.getElementById("container");
+        for (let device of devices)
+        {
+            device.boolState = device.state === "On" ? true : false;
+
+            device.turnOn = () => {
+                console.log("Turning on " + device.name)
+                ipcRenderer.send("event", "hOn", device.name)
+            }
+
+            device.turnOff = () => {
+                console.log("Turning on " + device.name)
+                ipcRenderer.send("event", "hOff", device.name)
+            }
+
+
+            const el = document.createElement('div')
+            el.className = "device"
+            el.id = device.id
+
+            if (device.boolState) {
+                el.className = "device on"
+            }
+
+            el.onclick = () => {
+                var new_state = !device.boolState
+                device.boolState = new_state
+
+                if (new_state) {
+                    device.turnOn()
+                } else {
+                    device.turnOff()
+                }
+            }
+
+
+            const img = document.createElement('img')
+            img.id = "icon"
+            img.src = device.boolState ? "../assets/states/switch_on.png" : "../assets/states/switch_off.png"
+            el.appendChild(img)
+
+            const name = document.createElement('a')
+            name.id = "title"
+            name.innerHTML = device.name
+
+            if (device.name.length >= 9) {
+                name.style.top = 47
+            }
+            el.appendChild(name)
+
+            const state = document.createElement('a')
+            state.id = "state"
+            state.innerHTML = device.state
+            el.appendChild(state)
+            /*<img src="../assets/states/switch_on.png" id="icon"/>
+                    <a id="title">Test Device</a>
+                    <a id="state">On</a>*/
+
+            /*const btnOn = document.createElement('input')
+            btnOn.type = "button"
+            btnOn.value = "On"
+            btnOn.onclick= device.turnOn
+
+            const btnOff = document.createElement('input')
+            btnOff.type = "button"
+            btnOff.value = "Off"
+            btnOff.onclick= device.turnOff
+
+            el.appendChild(btnOn)
+            el.appendChild(btnOff)*/
+            deviceContainer.appendChild(el)
+        }
+    }
+})

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-241 333 128 128" style="enable-background:new -241 333 128 128;" xml:space="preserve">
 <style type="text/css">
-	.st4{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-miterlimit:10;}
+	.st0{display:none;}
+	.st1{fill:none;stroke:#231F20;stroke-width:4;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#995712;stroke-width:12;stroke-miterlimit:10;}
 </style>
-<g id="Minimize">
-	<line id="XMLID_17_" class="st4" x1="23.8" y1="104.2" x2="104.2" y2="104.2"/>
-	<line id="XMLID_2_" class="st4" x1="64" y1="76.3" x2="92.5" y2="47.8"/>
-	<line id="XMLID_3_" class="st4" x1="35.5" y1="47.8" x2="64.7" y2="77"/>
+<g id="Minimize" class="st0">
+	<line id="XMLID_2_" class="st1" x1="-177" y1="409.3" x2="-148.6" y2="380.8"/>
+	<line id="XMLID_3_" class="st1" x1="-205.4" y1="380.8" x2="-176.3" y2="410"/>
 </g>
+<line id="Mini" class="st2" x1="-217" y1="397" x2="-137" y2="397"/>
 </svg>
