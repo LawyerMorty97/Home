@@ -4,6 +4,7 @@ var app = remote.require("./app.js")
 var maximized = true; // Max/Min Window State
 
 var devices = []
+var elements = []
 
 function winHandle(query) {
     var currentWindow = remote.BrowserWindow.getFocusedWindow();
@@ -54,21 +55,6 @@ function isValidYoutubeURL(url) {
 }
 
 function handleEvent(event) {
-    if (event === "setupLinkParser") {
-        var linkbox = document.getElementById("linkinput");
-        
-        linkbox.focus();
-        linkbox.addEventListener("keyup", (event) => {
-            event.preventDefault();
-            if (event.keyCode === 13) {
-                if (linkbox.value === "" || isEmpty(linkbox.value)) return;
-                if (!isURL(linkbox.value) || !isValidYoutubeURL(linkbox.value)) return;
-
-                ipcRenderer.send("message", "Link: " + linkbox.value);
-                linkbox.value = "";
-            }
-        })
-    }
 }
 
 ipcRenderer.send("event", "appstart")
@@ -116,13 +102,20 @@ ipcRenderer.on('data', (event, type, data) => {
                 var new_state = !device.boolState
                 device.boolState = new_state
 
+                var thisDevice = elements[device.name];
+
                 if (new_state) {
                     device.turnOn()
+                    thisDevice.divElem.className = "device on"
+                    thisDevice.stateElem.innerText = "On"
+                    thisDevice.imgElem.src = "../assets/states/switch_on.png"
                 } else {
                     device.turnOff()
+                    thisDevice.divElem.className = "device"
+                    thisDevice.stateElem.innerText = "Off"
+                    thisDevice.imgElem.src = "../assets/states/switch_off.png"
                 }
             }
-
 
             const img = document.createElement('img')
             img.id = "icon"
@@ -142,6 +135,12 @@ ipcRenderer.on('data', (event, type, data) => {
             state.id = "state"
             state.innerHTML = device.state
             el.appendChild(state)
+
+            elements[device.name] = {}
+            elements[device.name].divElem = el;
+            elements[device.name].titleElem = name;
+            elements[device.name].stateElem = state;
+            elements[device.name].imgElem = img;
             /*<img src="../assets/states/switch_on.png" id="icon"/>
                     <a id="title">Test Device</a>
                     <a id="state">On</a>*/

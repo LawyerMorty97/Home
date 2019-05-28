@@ -146,8 +146,6 @@ function createWindow() {
 
 function onWindowCreated() {
     //frontend.send("Window successfully initialized.");
-    frontend.sendEvent("setupLinkParser")
-
     hqtt.subscribe('homebridge/from/set')
     hqtt.subscribe('homebridge/from/response')
 
