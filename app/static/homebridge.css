@@ -1,0 +1,179 @@
+body {
+  background:linear-gradient(to bottom, #045ff8, #6ecfd5);
+  user-select: none;
+}
+
+svg {
+  display:block;
+  margin:auto;
+}
+
+ul {
+  /*color: white;*/
+  text-decoration: none;
+}
+
+button {
+  -webkit-app-region: no-drag;
+}
+
+.windowbar {
+  width:100%;
+  /*background: linear-gradient(to bottom, rgba(82, 82, 82, 0.75), rgba(82, 82, 82, 0.75), rgba(82, 82, 82, 0.75), rgba(82, 82, 82, 0));*/
+  color: black;
+  height:48px;
+
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.windowcontainer {
+  /*width:100%;
+  height:100%;*/
+}
+.barbtn {
+  width:32px;
+  margin-top: 10px;
+  margin-right:10px;
+  float: right;
+  position:relative;
+  -webkit-app-region:no-drag;
+  border-radius: 64px;
+
+  box-shadow:inset 0px 0px 0px 2px rgba(0, 0, 0, 0.15);
+}
+
+.barbtn#title {
+  box-shadow: none;
+  position: absolute;
+  left: 50%;
+  color: white;
+}
+
+.barbtn#title:hover 
+{
+  box-shadow: none;
+}
+
+.barbtn:hover 
+{
+  cursor: default;
+}
+
+.barbtn#devtools img {
+  opacity: 1;
+}
+
+.barbtn img
+{
+  opacity: 0;
+}
+
+.barbtn img:hover
+{
+  opacity: 1;
+}
+
+.barbtn#devtools {
+  background: #c6c4c4;
+}
+
+.barbtn#devtools:hover {
+  background:#a5a4a4;
+}
+
+.barbtn#minimize {
+  background: #fabc43;
+}
+
+.barbtn#minimize:hover {
+  background:#d7a428;
+}
+
+.barbtn#maximize {
+  background: #33c446;
+}
+
+.barbtn#maximize:hover {
+  background:#22ab37;
+}
+
+.barbtn#close {
+  background: #f75f5a;
+}
+
+.barbtn#close:hover {
+  background:#d3514b;
+  cursor:pointer;
+}
+
+::placeholder {
+  color:rgba(255, 255, 255, 0.5);
+}
+
+.hidden {
+  display:none;
+}
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
+}
+
+img {
+  display:block;
+  margin:auto;
+}
+
+.device {
+  background: rgba(255, 255, 255, 0.85);
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+  padding: 2px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.device #title {
+  position: absolute;
+  top: 60px;
+  left: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: rgba(100, 100, 100, 0.9);
+}
+
+.device #state {
+  position: absolute;
+  top: 80px;
+  left: 12px;
+  font-size: 0.8em;
+  font-weight: bold;
+
+  color: rgba(100, 100, 100, 0.5);
+}
+
+.device.on {
+  background: rgba(255, 255, 255, 1);
+}
+
+.device.on #title {
+  color: black;
+}
+
+.device.on #state {
+  color: rgba(100, 100, 100, 0.95);
+}
+
+.device img {
+  width: 32px;
+  border-radius: 4px;
+
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}

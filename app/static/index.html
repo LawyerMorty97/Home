@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div class="windowbar">
+            <!--<div id="logo" class="barbtn">
+                <img id="logoSVG" src="../assets/svg/igcw.svg">
+            </div>
+
+            <div id="play" class="barbtn left" style="width: auto;padding: 0px 3px 0px 3px;" onclick="sendEvent('play')">
+                Play
+            </div>-->
+            <div id="play" class="barbtn left" style="width: auto;padding: 0px 3px 0px 3px;">
+                Lightweight Youtube Downloader
+            </div>
+
+            <div id="close" class="barbtn" onclick="winHandle('close')">
+                <img id="closeSVG" src="../assets/svg/close.svg">
+            </div>
+
+            <div id="maximize" class="barbtn" onclick="winHandle('maximize')">
+                <img id="maxSVG" src="../assets/svg/maximize.svg">
+                <img class="hidden" id="fitSVG" src="../assets/svg/fit.svg">
+            </div>
+            <div id="minimize" class="barbtn" onclick="winHandle('minimize')">
+                    <img src="../assets/svg/minimize.svg">
+            </div>
+
+            <div id="devtools" class="barbtn" onclick="winHandle('opendebug')">
+                <img src="../assets/svg/devtools.svg">
+        </div>
+        </div>
+        <div class="windowcontainer">
+            <div class="window">
+                <div class="window-content">
+                    <div class="pane-group">
+                        <div class="pane-sm sidebar">...</div>
+                        <div class="pane">...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mli">
+                <ul id="mliu"></ul>
+            </div>
+            <div class="msgbox">
+                <input id="linkinput" class="linkinput" placeholder="Paste your YouTube link here and press Enter!" type="text">
+            </div>
+        </div>
+
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../window.js"></script>
+    </body>
+</html>
