@@ -154,10 +154,11 @@ function createWindow() {
 
 function onWindowCreated() {
     //frontend.send("Window successfully initialized.");
-    hqtt.subscribe('homebridge/from/set')
-    hqtt.subscribe('homebridge/from/response')
 
     hqtt.init()
+
+    hqtt.subscribe('homebridge/from/set')
+    hqtt.subscribe('homebridge/from/response')
 }
 
 function quitApp() {

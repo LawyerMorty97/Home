@@ -1,4 +1,4 @@
-var {desktopCapturer, screen, shell, ipcRenderer, remote} = require("electron")
+var {desktopCapturer, shell, ipcRenderer, remote} = require("electron")
 var app = remote.require("./app.js")
 
 var maximized = true; // Max/Min Window State
@@ -16,14 +16,9 @@ function winHandle(query) {
     if (query === "maximize") {
         if (maximized) {
             currentWindow.maximize();
-            //maxButton.classList.add("hidden");
-            //fitButton.classList.remove("hidden");
         } else {
             currentWindow.unmaximize();
             currentWindow.center();
-
-            //maxButton.classList.remove("hidden");
-            //fitButton.classList.add("hidden");
         }
         maximized = !maximized;
     } else if (query === "minimize") {
@@ -71,7 +66,6 @@ ipcRenderer.on('message', (event, arg) => {
 
 ipcRenderer.on('data', (event, type, data) => {
     if (type === "homekit_devices") {
-        console.log("GOT DEVICES ON CLIENT")
         devices = data
 
         const deviceContainer = document.getElementById("container");

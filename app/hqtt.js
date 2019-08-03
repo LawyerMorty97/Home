@@ -1,6 +1,6 @@
 var broker = require("mqtt");
 
-var mqtt = broker.connect('mqtt://192.168.100.5')
+var mqtt = broker.connect('mqtt://94.168.100.27')
 var IPC
 
 var requestedDevices
@@ -9,6 +9,11 @@ var devices = []
 mqtt.on('connect', function()
 {
     sendMessage("Connected to MQTT broker")
+})
+
+mqtt.on('error', function(error)
+{
+    sendMessage("ERROR: " + error)
 })
 
 mqtt.on('message', function(topic, message)
@@ -35,11 +40,11 @@ mqtt.on('message', function(topic, message)
 
                 var deviceObject = {}
                 deviceObject.name = name[0]
-                deviceObject.id = ids[0]
+                deviceObject.id = element
                 deviceObject.index = index
                 deviceObject.type = type
                 deviceObject.state = state ? "On" : "Off"
-                deviceObject.line = JSON.parse("{\"name\": \"" + ids[0] + "\", \"service_name\": \"" + name + "\", \"characteristic\": \"On\", \"value\": " + state + "}")
+                deviceObject.line = JSON.parse("{\"name\": \"" + element + "\", \"service_name\": \"" + name + "\", \"characteristic\": \"On\", \"value\": " + state + "}")
                 deviceObject.turnOn = function() {
                     var obj = this.line
                     obj.value = true
@@ -63,6 +68,8 @@ mqtt.on('message', function(topic, message)
             })
             sendEvent("device_list")
         }
+    } else {
+        sendMessage("MESSAGE: " + message)
     }
 })
 
@@ -125,6 +132,11 @@ function Toggle(id, state)
 
 function subscribe(topic)
 {
+    if (mqtt.connected) {
+        sendMessage("connected")
+    } else {
+        sendMessage("not connected")
+    }
     sendMessage("Attempting to subscribe to '" + topic + "'")
     mqtt.subscribe(topic, function(err)
     {
