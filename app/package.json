@@ -1,7 +1,14 @@
 {
   "name": "homeforhomebridge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Home for Homebridge",
+  "email": "mathiastb13@gmail.com",
+  "url": "https://github.com/LawyerMorty97/Home/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LawyerMorty97/Home.git",
+    "directory": "app"
+  },
   "main": "app.js",
   "scripts": {
     "start": "electron ."
@@ -13,7 +20,7 @@
     "child-process": "^1.0.2",
     "child_process": "^1.0.2",
     "dialog": "^0.3.1",
-    "electron": "^5.0.2",
+    "electron": "^5.0.8",
     "electron-squirrel-startup": "^1.0.0",
     "fs": "0.0.2",
     "jquery": "^3.4.1",
