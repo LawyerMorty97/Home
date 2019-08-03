@@ -1,6 +1,7 @@
 var broker = require("mqtt");
 
-var mqtt = broker.connect('mqtt://94.168.100.27')
+// A Local IP (or if you so choose, a public one I guess)
+var mqtt = broker.connect('mqtt://{IP HERE}')
 var IPC
 
 var requestedDevices
