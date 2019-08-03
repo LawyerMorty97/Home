@@ -1,19 +1,18 @@
-# LYD: Lightweight Youtube Downloader
-> Lightning fast video downloading without any clutter
+# Home for Homebridge
+> A face for the embedded
 
-L.Y.D. is a program coded in JavaScript with a Node.JS backend and Electon frontend.
+Home is an application for Homebridge users that let's them control their embedded devices via their computers. While Apple has a native Home application on all macOS devices running macOS Mojave and newer, Windows users are left in the dark. Well no more, this 'Home' app aims to bring most features to the masses.
 
-The following libraries are used in the core of this solution:
-- fs (File System)
-- ytdl-core (Youtube Downloader)
-- electron
+Requirements
+- Homebridge
+- Homebridge MQTT
+- Patience
 
-Implemented libraries:
-- [x] ytdl-core
-- [ ] electron
-
-To Do:
-- [x] Prototype Basic Downloading
-- [x] Prototype Information Gathering
-- [ ] Create a first prototype iteration of a UI
-- [ ] Implement the Electron library
+Features:
+- [x] Connecting to the Homebridge MQTT broker
+- [x] Retrieving devices
+- [x] Toggling device states
+- [x] Support for Switches
+- [ ] Support for Sensors
+- [ ] Support for Brightness
+- [ ] Updating UI when devices change states via Home macOS/iOS
