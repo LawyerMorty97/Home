@@ -5,6 +5,8 @@ Home is an application for Homebridge users that let's them control their embedd
 
 [![Build Status](https://travis-ci.com/LawyerMorty97/YTDLapp.svg?token=cuZyxzPpztjXPKTE1kbN&branch=master)](https://travis-ci.com/LawyerMorty97/YTDLapp)
 
+If you like this project i'm working on be sure to Watch/Star it!
+
 # Requirements
 - Homebridge
 - Homebridge MQTT
