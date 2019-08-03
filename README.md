@@ -16,9 +16,17 @@ Running Home
 
 Features:
 - [x] Connecting to the Homebridge MQTT broker
+- [x] Basic UI for toggling devices
+- [ ] Create a Get Started page
+- [ ] Possibility to add new devices through Home
+- [ ] Settings page
+- [ ] Support for changing the MQTT broker
+- [ ] Settings
+- [ ] Updating UI when devices change states via Home macOS/iOS
+
+Homekit Features:
 - [x] Retrieving devices
 - [x] Toggling device states
 - [x] Support for Switches
 - [ ] Support for Sensors
 - [ ] Support for Brightness
-- [ ] Updating UI when devices change states via Home macOS/iOS
