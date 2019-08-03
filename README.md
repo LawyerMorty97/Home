@@ -8,6 +8,12 @@ Requirements
 - Homebridge MQTT
 - Patience
 
+Running Home
+- Clone the repository
+- `npm i`
+- `cd app`
+- `npm start`
+
 Features:
 - [x] Connecting to the Homebridge MQTT broker
 - [x] Retrieving devices
