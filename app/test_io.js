@@ -1,19 +1,5 @@
-const io = require("./io");
+const path = require("path");
 
-var fio = new io()
+path.ex
 
-async function s()
-{
-    var result = null;
-    await fio.fileExists("test2.json")
-    .then((exists) => {
-        result = exists
-    })
-
-    return result;
-}
-
-var json = fio.readJSON("test.json")
-.then((data) => {
-    console.log("data: " + data.ip)
-})
+console.log(process.env.APPDATA);

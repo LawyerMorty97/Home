@@ -1,6 +1,25 @@
 body {
-  background:linear-gradient(to bottom, #045ff8, #6ecfd5);
   user-select: none;
+}
+
+.grad_blue {
+  background: linear-gradient(to bottom, #045ff8, #6ecfd5)
+}
+
+.grad_harvey {
+  background: linear-gradient(to bottom, #1f4037, #99f2c8)
+}
+
+.grad_purple {
+  background: linear-gradient(to bottom, #8e2de2, #4a00e0)
+}
+
+.grad_red {
+  background: linear-gradient(to bottom, #c31432, #240b36)
+}
+
+.grad_dream {
+  background: linear-gradient(to bottom, #34e89e, #0f3443)
 }
 
 svg {
@@ -47,7 +66,8 @@ button {
   box-shadow: none;
   position: absolute;
   left: 50%;
-  color: white;
+  color: black;
+  font-weight: 500;
 }
 
 .barbtn#title:hover 
@@ -115,6 +135,10 @@ button {
   display:none;
 }
 
+.invisible {
+  opacity: 0;
+}
+
 .left {
   float:left;
 }
@@ -126,6 +150,12 @@ button {
 img {
   display:block;
   margin:auto;
+
+  -webkit-transition: all .25s ease-in-out;
+  -moz-transition: all .25s ease-in-out;
+  -ms-transition: all .25s ease-in-out;
+  -o-transition: all .25s ease-in-out;
+  transition: all .25s ease-in-out;
 }
 
 .device {
@@ -136,6 +166,12 @@ img {
   padding: 2px;
   border-radius: 10px;
   position: relative;
+
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .device #title {
@@ -144,6 +180,12 @@ img {
   font-size: 0.8em;
   font-weight: bold;
   color: rgba(200, 200, 200, 0.6);
+
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .device #state {
@@ -154,6 +196,12 @@ img {
   font-weight: bold;
 
   color: rgba(200, 200, 200, 0.3);
+
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .device.on {

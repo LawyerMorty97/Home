@@ -4,7 +4,6 @@ var app = remote.require("./app.js")
 var maximized = true; // Max/Min Window State
 
 var devices = []
-var elements = []
 
 function winHandle(query) {
     var currentWindow = remote.BrowserWindow.getFocusedWindow();
@@ -48,23 +47,42 @@ ipcRenderer.on('message', (event, arg) => {
 })
 
 ipcRenderer.on('data', (event, type, data) => {
+    if (type == "window_theme")
+    {
+        document.body.classList.remove("grad_blue")
+        document.body.classList.add(data)
+    }
+
     if (type === "homekit_device_update") {
         var name = data[1]
         var id = data[0]
         var state = data[2]
 
-        var div = elements[name]
+        var div = document.getElementById(id)
+        var stateElem = div.querySelector("#state")
+
+        var icon_on_Elem = div.querySelector("#iconOn")
+        var icon_off_Elem = div.querySelector("#iconOff")
+
         if (div !== null)
         {
             if (state === true)
             {
-                div.divElem.className = "device on"
-                div.stateElem.innerText = "On"
-                div.imgElem.src = "../assets/states/switch_on.png"
+                div.classList.add("on")
+
+                icon_on_Elem.classList.remove("invisible")
+                icon_off_Elem.classList.add("invisible")
+
+                stateElem.innerText = "On"
+                //iconElem.src = "../assets/states/switch_on.png"
             } else {
-                div.divElem.className = "device"
-                div.stateElem.innerText = "Off"
-                div.imgElem.src = "../assets/states/switch_off.png"
+                div.classList.remove("on")
+                
+                icon_on_Elem.classList.add("invisible")
+                icon_off_Elem.classList.remove("invisible")
+
+                stateElem.innerText = "Off"
+                //iconElem.src = "../assets/states/switch_off.png"
             }
         }
     }
@@ -98,25 +116,29 @@ ipcRenderer.on('data', (event, type, data) => {
                 var new_state = !device.boolState
                 device.boolState = new_state
 
-                var thisDevice = elements[device.name];
-
                 if (new_state) {
                     device.turnOn()
-                    /*thisDevice.divElem.className = "device on"
-                    thisDevice.stateElem.innerText = "On"
-                    thisDevice.imgElem.src = "../assets/states/switch_on.png"*/
                 } else {
                     device.turnOff()
-                    /*thisDevice.divElem.className = "device"
-                    thisDevice.stateElem.innerText = "Off"
-                    thisDevice.imgElem.src = "../assets/states/switch_off.png"*/
                 }
             }
 
-            const img = document.createElement('img')
-            img.id = "icon"
-            img.src = device.boolState ? "../assets/states/switch_on.png" : "../assets/states/switch_off.png"
-            el.appendChild(img)
+            const imgOn = document.createElement('img')
+            imgOn.id = "iconOn"
+            imgOn.src = "../assets/states/switch_on.png"
+            el.appendChild(imgOn)
+
+            const imgOff = document.createElement('img')
+            imgOff.id = "iconOff"
+            imgOff.src = "../assets/states/switch_off.png"
+            el.appendChild(imgOff)
+
+            if (device.boolState)
+            {
+                imgOff.classList.add("invisible")
+            } else {
+                imgOn.classList.add("invisible")
+            }
 
             const name = document.createElement('a')
             name.id = "title"
@@ -134,27 +156,6 @@ ipcRenderer.on('data', (event, type, data) => {
             state.innerHTML = device.state
             el.appendChild(state)
 
-            elements[device.name] = {}
-            elements[device.name].divElem = el;
-            elements[device.name].titleElem = name;
-            elements[device.name].stateElem = state;
-            elements[device.name].imgElem = img;
-            /*<img src="../assets/states/switch_on.png" id="icon"/>
-                    <a id="title">Test Device</a>
-                    <a id="state">On</a>*/
-
-            /*const btnOn = document.createElement('input')
-            btnOn.type = "button"
-            btnOn.value = "On"
-            btnOn.onclick= device.turnOn
-
-            const btnOff = document.createElement('input')
-            btnOff.type = "button"
-            btnOff.value = "Off"
-            btnOff.onclick= device.turnOff
-
-            el.appendChild(btnOn)
-            el.appendChild(btnOff)*/
             deviceContainer.appendChild(el)
         }
     }

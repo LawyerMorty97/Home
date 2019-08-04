@@ -162,17 +162,20 @@ function createWindow() {
 }
 
 async function onWindowCreated() {
+    var theme = "grad_blue"
     var ip = null
     var config = io.readJSON("config.json")
     .then((data) => {
         if (data !== false) {
             ip = data.ip
+            theme = data.theme
         }
     })
 
     await config;
 
     hqtt.init(ip);
+    window.webContents.send("data", "window_theme", theme)
 }
 
 function quitApp() {

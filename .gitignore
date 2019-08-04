@@ -1,2 +1,4 @@
+*.asar
+Home-win32-x64/
 BSStudio/
 app/node_modules/

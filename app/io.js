@@ -17,6 +17,8 @@ function FileIO(webContents) {
     log("FileIO up and running");
 }
 
+
+
 async function fileExists(filename)
 {
     return new Promise(resolve => {
