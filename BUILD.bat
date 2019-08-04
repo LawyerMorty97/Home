@@ -1,1 +1,1 @@
-electron-packager source Home --platform=win32 --arch=x64 --asar
+electron-packager source Home --platform=win32 --arch=x64 --asar && cd Home-win32-x64 && copy Home.exe ..\tools /Y && del /f Home.exe && cd ../tools && rcedit "Home.exe" --set-icon "home.ico" --set-file-version "0.0.1" && copy Home.exe ..\Home-win32-x64 /Y && del /f Home.exe && cd ..
