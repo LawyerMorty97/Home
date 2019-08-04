@@ -1,2 +1,2 @@
-cd app
+cd source
 npm start
