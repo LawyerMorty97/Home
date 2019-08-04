@@ -1,0 +1,1 @@
+electron-packager source Home --platform=win32 --arch=x64 --asar

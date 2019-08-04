@@ -1,74 +1,23 @@
 "use strict";
 
-if (require("electron-squirrel-startup")) return;
-
 const {app, shell, BrowserWindow, ipcMain} = require("electron");
 const path = require("path");
 const url = require("url");
 const dialog = require("dialog");
 
-// START: Squirrel Handling
-if (handleSquirrel()) return;
-
-function handleSquirrel() {
-    if (process.argv.length === 1) return false;
-
-    const ChildProcess = require("child_process");
-
-    const rootDir = path.resolve(process.execPath, "..");
-    const rootAppDir = path.resolve(rootDir, "..");
-    const updateEXE = path.resolve(path.join(rootAppDir, "Update.exe"));
-    const exe = path.basename(process.execPath);
-
-    const spawn = function(command, args) {
-        let spawnedProcess, error;
-
-        try {
-            spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
-        } catch(error) {
-            throw error;
-        }
-
-        return spawnedProcess;
-    }
-
-    const spawnUpdate = function(args) {
-        return spawn(updateEXE, args);
-    }
-
-    const squirrelEvent = process.argv[1];
-    switch (squirrelEvent) {
-        case '--squirrel-install':
-        case '--squirrel-updated':
-            spawnUpdate(['--createShortcut', exe]);
-            setTimeout(app.quit, 1000);
-            return true;
-        case '--squirrel-uninstall':
-            spawnUpdate(['--removeShortcut', exe]);
-            setTimeout(app.quit, 1000);
-            return true;
-        case '--squirrel-obselete':
-            app.quit();
-            return true;
-    }
-}
-
-// END: Squirrel Handling
-
 // START: Application
 const IO = require("./io")
 const UUID = require("./uuid");
-const Frontend = require("./sock_client");
 const HQTT = require('./hqtt')
 
 const appOptions = {
-    width: 1200,
-    height: 800,
-    minWidth: 1200,
-    minHeight: 800,
+    width: 1024,
+    height: 768,
+    minWidth: 1024,
+    minHeight: 768,
     frame: false,
     center: true,
-    title: "Homekit - By Mathias Berntsen",
+    title: "Home",
     show: false,
     scrollBounce: true,
     webPreferences:
@@ -79,7 +28,6 @@ const appOptions = {
 
 var io = null;
 var uuid = null;
-var frontend = null;
 var hqtt = null;
 
 var window = null; // Window
@@ -109,7 +57,6 @@ communicator.sendEvent = (event) => {
 
 function initModules() {
     uuid = new UUID();
-    frontend = new Frontend(window.webContents);
     hqtt = new HQTT(communicator);
     io = new IO(communicator);
 }
@@ -159,12 +106,16 @@ function createWindow() {
             window.webContents.send("action", "move");
         });
     }
+
+    window.webContents.on("devtools-opened", () => {
+        window.webContents.closeDevTools();
+    })
 }
 
 async function onWindowCreated() {
     var theme = "grad_blue"
     var ip = null
-    var config = io.readJSON("config.json")
+    var config = io.readConfig()
     .then((data) => {
         if (data !== false) {
             ip = data.ip
@@ -179,7 +130,6 @@ async function onWindowCreated() {
 }
 
 function quitApp() {
-    if (frontend !== null) frontend.shutdown();
     if (hqtt !== null) hqtt.shutdown();
 
     app.quit();
@@ -216,9 +166,6 @@ ipcMain.on("event", (event, arg, state) => {
     if (arg === "device_list")
     {
         var devices = hqtt.GetDevices()
-        /*devices.forEach(function(device) {
-            device.turnOff()
-        })*/
     }
 
     if (arg === "hOn")
@@ -228,7 +175,4 @@ ipcMain.on("event", (event, arg, state) => {
     if (arg === "hOff") {
         hqtt.Toggle(state, false)
     }
-
-    // Send the rendered the event that was called :-)
-    frontend.sendEvent(arg);
 });

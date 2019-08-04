@@ -21,7 +21,7 @@
     "child_process": "^1.0.2",
     "dialog": "^0.3.1",
     "electron": "^5.0.8",
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-packager": "^14.0.4",
     "fs": "0.0.2",
     "jquery": "^3.4.1",
     "mqtt": "^3.0.0",

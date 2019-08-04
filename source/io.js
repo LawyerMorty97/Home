@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-let DEFAULT_DIRECTORY = "\\data\\";
+let STORAGE_FOLDER = "Home_AppStorage"
+let DEFAULT_DIRECTORY = path.join(process.env.appdata, "..\\Local", STORAGE_FOLDER)
 
 var FileIO;
 var IPC;
@@ -14,24 +15,53 @@ print = log
 
 function FileIO(webContents) {
     IPC = webContents;
-    log("FileIO up and running");
+    log("up and running");
 }
-
 
 
 async function fileExists(filename)
 {
     return new Promise(resolve => {
-        let dir = DEFAULT_DIRECTORY + filename;
-        let location = process.cwd() + dir;
+        let dir = path.join(DEFAULT_DIRECTORY, filename);
 
-        fs.exists(location, (exists) => {
+        fs.exists(dir, (exists) => {
             if (exists === true)
-                resolve(location)
+                resolve(dir)
             else
                 resolve(false)
         })
     });
+}
+
+async function readConfig()
+{
+    if (!fs.existsSync(DEFAULT_DIRECTORY))
+    {
+        log("Storage directory did not exist, creating it")
+        fs.mkdirSync(DEFAULT_DIRECTORY)
+    }
+
+    // Default config
+    var config = {}
+    config.theme = "grad_blue"
+    config.ip = "192.168.100.27"
+
+    var exists = false
+    await fileExists("config.json")
+    .then((data) => {
+        exists = data
+    })
+
+    if (exists == false)
+    {
+        let data = JSON.stringify(config)
+        fs.writeFileSync(path.join(DEFAULT_DIRECTORY, "config.json"), data)
+    } else {
+        let data = fs.readFileSync(exists);
+        config = JSON.parse(data);
+    }
+
+    return config
 }
 
 async function readJSON(filename)
@@ -55,4 +85,5 @@ async function readJSON(filename)
 FileIO.prototype.constructor = FileIO
 FileIO.prototype.fileExists = fileExists
 FileIO.prototype.readJSON = readJSON
+FileIO.prototype.readConfig = readConfig
 module.exports = FileIO
