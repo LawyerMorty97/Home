@@ -56,6 +56,7 @@ function handleSquirrel() {
 // END: Squirrel Handling
 
 // START: Application
+const IO = require("./io")
 const UUID = require("./uuid");
 const Frontend = require("./sock_client");
 const HQTT = require('./hqtt')
@@ -76,6 +77,7 @@ const appOptions = {
     }
 };
 
+var io = null;
 var uuid = null;
 var frontend = null;
 var hqtt = null;
@@ -103,6 +105,7 @@ function initModules() {
     uuid = new UUID();
     frontend = new Frontend(window.webContents);
     hqtt = new HQTT(communicator);
+    io = new IO(communicator);
 }
 
 function instanceCheck() {
@@ -152,13 +155,18 @@ function createWindow() {
     }
 }
 
-function onWindowCreated() {
-    //frontend.send("Window successfully initialized.");
+async function onWindowCreated() {
+    var ip = null
+    var config = io.readJSON("config.json")
+    .then((data) => {
+        if (data !== false) {
+            ip = data.ip
+        }
+    })
 
-    hqtt.init()
+    await config;
 
-    hqtt.subscribe('homebridge/from/set')
-    hqtt.subscribe('homebridge/from/response')
+    hqtt.init(ip);
 }
 
 function quitApp() {

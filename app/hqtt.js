@@ -1,23 +1,18 @@
 var broker = require("mqtt");
 
-// A Local IP (or if you so choose, a public one I guess)
-var mqtt = broker.connect('mqtt://{IP HERE}')
+var mqtt = null
+//var mqtt = broker.connect('mqtt://192.168.100.27')
 var IPC
 
 var requestedDevices
 var devices = []
 
-mqtt.on('connect', function()
+function onConnect()
 {
-    sendMessage("Connected to MQTT broker")
-})
+    sendMessage("Connected to MQTT broker");
+}
 
-mqtt.on('error', function(error)
-{
-    sendMessage("ERROR: " + error)
-})
-
-mqtt.on('message', function(topic, message)
+function onMessage(topic, message)
 {
     var jsonData = JSON.parse(message);
     if (topic === "homebridge/from/response")
@@ -69,10 +64,8 @@ mqtt.on('message', function(topic, message)
             })
             sendEvent("device_list")
         }
-    } else {
-        sendMessage("MESSAGE: " + message)
     }
-})
+}
 
 function RequestDevices()
 {
@@ -86,9 +79,21 @@ function GetDevices()
     return devices
 }
 
-function init()
+async function init(ip)
 {
+    let address = "mqtt://" + ip;
+
+    sendMessage("Address is " + address)
+    mqtt = broker.connect(address);
+    mqtt.on('connect', onConnect)
+    mqtt.on('message', onMessage)
+
+    await mqtt;
+
     RequestDevices()
+
+    subscribe('homebridge/from/set')
+    subscribe('homebridge/from/response')
 }
 
 function HQTT(webContents) {
@@ -133,11 +138,6 @@ function Toggle(id, state)
 
 function subscribe(topic)
 {
-    if (mqtt.connected) {
-        sendMessage("connected")
-    } else {
-        sendMessage("not connected")
-    }
     sendMessage("Attempting to subscribe to '" + topic + "'")
     mqtt.subscribe(topic, function(err)
     {
