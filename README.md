@@ -16,8 +16,7 @@ If you like this project i'm working on be sure to Watch/Star it!
 # Running Home
 - Clone the repository
 - `npm i`
-- `cd app`
-- `npm start`
+- `cd source && npm start`
 
 # Features:
 - [x] Connecting to the Homebridge MQTT broker
