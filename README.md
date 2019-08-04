@@ -25,9 +25,10 @@ If you like this project i'm working on be sure to Watch/Star it!
 - [ ] Create a Get Started page
 - [ ] Possibility to add new devices through Home
 - [ ] Settings page
-- [ ] Support for changing the MQTT broker
-- [ ] Settings
+- [x] Support for changing the MQTT broker
+- [ ] Settings functionality
 - [x] Updating UI when devices change states via Home macOS/iOS
+- [] UI animations and transitions (Started)
 
 # Homekit Features:
 - [x] Retrieving devices
