@@ -91,6 +91,12 @@ communicator.sendMessage = (cat, msg) => {
     window.webContents.send("message", msg)
 }
 
+communicator.sendEventData = (event, data) => {
+    if (event === "device_state") {
+        window.webContents.send("data", "homekit_device_update", data)
+    }
+}
+
 communicator.sendEvent = (event) => {
     if (event === "device_list")
     {
@@ -206,11 +212,10 @@ ipcMain.on("event", (event, arg, state) => {
 
     if (arg === "device_list")
     {
-        console.log("DE")
         var devices = hqtt.GetDevices()
-        devices.forEach(function(device) {
+        /*devices.forEach(function(device) {
             device.turnOff()
-        })
+        })*/
     }
 
     if (arg === "hOn")
@@ -222,6 +227,5 @@ ipcMain.on("event", (event, arg, state) => {
     }
 
     // Send the rendered the event that was called :-)
-    console.log("Event Call: " + arg);
     frontend.sendEvent(arg);
 });

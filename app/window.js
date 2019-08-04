@@ -32,23 +32,6 @@ function winHandle(query) {
 
 function isEmpty(content) { return !content.replace(/^\s+/g, ''); }
 
-function isURL(str) {
-    var pattern = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
-    if (pattern.test(str)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isValidYoutubeURL(url) {
-    var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    if(url.match(p)){
-        return url.match(p)[1];
-    }
-    return false;
-}
-
 function handleEvent(event) {
 }
 
@@ -65,6 +48,27 @@ ipcRenderer.on('message', (event, arg) => {
 })
 
 ipcRenderer.on('data', (event, type, data) => {
+    if (type === "homekit_device_update") {
+        var name = data[1]
+        var id = data[0]
+        var state = data[2]
+
+        var div = elements[name]
+        if (div !== null)
+        {
+            if (state === true)
+            {
+                div.divElem.className = "device on"
+                div.stateElem.innerText = "On"
+                div.imgElem.src = "../assets/states/switch_on.png"
+            } else {
+                div.divElem.className = "device"
+                div.stateElem.innerText = "Off"
+                div.imgElem.src = "../assets/states/switch_off.png"
+            }
+        }
+    }
+
     if (type === "homekit_devices") {
         devices = data
 
@@ -74,12 +78,10 @@ ipcRenderer.on('data', (event, type, data) => {
             device.boolState = device.state === "On" ? true : false;
 
             device.turnOn = () => {
-                console.log("Turning on " + device.name)
                 ipcRenderer.send("event", "hOn", device.name)
             }
 
             device.turnOff = () => {
-                console.log("Turning on " + device.name)
                 ipcRenderer.send("event", "hOff", device.name)
             }
 
@@ -100,14 +102,14 @@ ipcRenderer.on('data', (event, type, data) => {
 
                 if (new_state) {
                     device.turnOn()
-                    thisDevice.divElem.className = "device on"
+                    /*thisDevice.divElem.className = "device on"
                     thisDevice.stateElem.innerText = "On"
-                    thisDevice.imgElem.src = "../assets/states/switch_on.png"
+                    thisDevice.imgElem.src = "../assets/states/switch_on.png"*/
                 } else {
                     device.turnOff()
-                    thisDevice.divElem.className = "device"
+                    /*thisDevice.divElem.className = "device"
                     thisDevice.stateElem.innerText = "Off"
-                    thisDevice.imgElem.src = "../assets/states/switch_off.png"
+                    thisDevice.imgElem.src = "../assets/states/switch_off.png"*/
                 }
             }
 
@@ -120,8 +122,10 @@ ipcRenderer.on('data', (event, type, data) => {
             name.id = "title"
             name.innerHTML = device.name
 
-            if (device.name.length >= 9) {
+            if (device.name.length >= 17) {
                 name.style.top = 47
+            } else {
+                name.style.top = 60
             }
             el.appendChild(name)
 

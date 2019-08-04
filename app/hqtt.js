@@ -70,6 +70,17 @@ function onMessage(topic, message)
             sendEvent("device_list")
         }
     }
+
+    if (topic == "homebridge/from/set")
+    {
+        var id = jsonData.name
+        var name = jsonData.service_name
+        var state = jsonData.value
+
+        let packet = [id, name, state]
+
+        sendEventData("device_state", packet)
+    }
 }
 
 function RequestDevices()
@@ -114,8 +125,12 @@ function sendMessage(message)
 
 function sendEvent(message)
 {
-    //console.log("HQTT-Event: " + message)
     IPC.sendEvent(message)
+}
+
+function sendEventData(message, data)
+{
+    IPC.sendEventData(message, data)
 }
 
 function publish(topic, message)

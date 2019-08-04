@@ -26,7 +26,7 @@ If you like this project i'm working on be sure to Watch/Star it!
 - [ ] Settings page
 - [ ] Support for changing the MQTT broker
 - [ ] Settings
-- [ ] Updating UI when devices change states via Home macOS/iOS
+- [x] Updating UI when devices change states via Home macOS/iOS
 
 # Homekit Features:
 - [x] Retrieving devices
