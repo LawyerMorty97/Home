@@ -3,7 +3,7 @@
 
 Home is an application for Homebridge users that let's them control their embedded devices via their computers. While Apple has a native Home application on all macOS devices running macOS Mojave and newer, Windows users are left in the dark. Well no more, this 'Home' app aims to bring most features to the masses.
 
-[![Build Status](https://travis-ci.com/LawyerMorty97/YTDLapp.svg?token=cuZyxzPpztjXPKTE1kbN&branch=master)](https://travis-ci.com/LawyerMorty97/YTDLapp)
+[![Build Status](https://travis-ci.com/LawyerMorty97/Home.svg?token=cuZyxzPpztjXPKTE1kbN&branch=master)](https://travis-ci.com/LawyerMorty97/Home)
 
 If you like this project i'm working on be sure to Watch/Star it!
 
