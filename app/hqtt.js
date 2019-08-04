@@ -12,6 +12,11 @@ function onConnect()
     sendMessage("Connected to MQTT broker");
 }
 
+function onError(error)
+{
+    sendMessage("ERROR: " + error);
+}
+
 function onMessage(topic, message)
 {
     var jsonData = JSON.parse(message);
@@ -83,10 +88,10 @@ async function init(ip)
 {
     let address = "mqtt://" + ip;
 
-    sendMessage("Address is " + address)
     mqtt = broker.connect(address);
     mqtt.on('connect', onConnect)
     mqtt.on('message', onMessage)
+    mqtt.on('error', onError)
 
     await mqtt;
 
