@@ -11,6 +11,7 @@ If you like this project i'm working on be sure to Watch/Star it!
 - Homebridge
 - Homebridge MQTT
 - Patience
+- (Optional) Raspberry Pi 3B
 
 # Running Home
 - Clone the repository
@@ -34,3 +35,8 @@ If you like this project i'm working on be sure to Watch/Star it!
 - [x] Support for Switches
 - [ ] Support for Sensors
 - [ ] Support for Brightness
+
+# FAQ
+To use this program, you'll have to have an MQTT broker active. I recommend installing one onto a Raspberry Pi (or on the same device running Homebridge) as this makes things less complicated. Below are links that are helpful to getting MQTT setup on Raspberry Pi
+- [Homebridge MQTT Plugin](https://www.npmjs.com/package/homebridge-mqtt)
+- [Setting up Raspberry Pi as an MQTT Broker](https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi)
